@@ -36,7 +36,7 @@ QUOTE_CJK_RE = re.compile(
 FIX_QUOTE_RE = re.compile(
     u(r'(["\'\(\[\{<\u201c]+)(\s*)(.+?)(\s*)(["\'\)\]\}>\u201d]+)'))
 FIX_SINGLE_QUOTE_RE = re.compile(
-    u(r'([\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30ff\u3100-\u312f\u3200-\u32ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff])( )(\')([A-Za-z])'
+    u(r'([\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30ff\u3100-\u312f\u3200-\u32ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff])()(\')([A-Za-z])'
       ))
 
 CJK_HASH_RE = re.compile(
@@ -126,4 +126,7 @@ class PanguSpaceCommand(sublime_plugin.TextCommand):
 
 class EnsureSpaceBetweenChineseAndEnglish(sublime_plugin.EventListener):
     def on_pre_save(self, view):
-        view.run_command('pangu_space')
+        filename = view.file_name()
+        if filename and filename.endswith('.md'):
+            print(filename)
+            view.run_command('pangu_space')
